@@ -1,0 +1,35 @@
+
+#Clean up the Downloads folder
+
+import os
+import shutil
+
+dir1 = "D:/Documents/New folder"
+dir2 = "D:/Pictures/New folder"
+dir3 = "D:/Downloads/ZIP Files"
+
+def moveto(dst):
+    return lambda src: shutil.move(src, dst)
+
+action = {
+    'pdf': moveto(dir1),
+    'docx': moveto(dir1),
+    'exe': moveto(dir1),
+    'jpg': moveto(dir2),
+    'txt': moveto(dir1),
+    'png': moveto(dir2),
+    'jpeg': moveto(dir2),
+    'rtf': moveto(dir1),
+    'zip': moveto(dir3),
+    'jar': moveto(dir3),
+    'rar': moveto(dir3),
+    'bz2': moveto(dir3),
+    '7z': moveto(dir3),
+    'torrent': os.remove,
+}
+
+src_dir = 'D:/Downloads'
+for file in os.listdir(src_dir):
+    ext = os.path.splitext(file)[1][1:]
+    if ext in action:
+        action[ext](os.path.join(src_dir, file))
